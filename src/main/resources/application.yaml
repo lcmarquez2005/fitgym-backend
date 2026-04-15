@@ -1,3 +1,4 @@
 spring:
   application:
-    name: fitgym-backend
+    name: ${VAR_ENT}
+
