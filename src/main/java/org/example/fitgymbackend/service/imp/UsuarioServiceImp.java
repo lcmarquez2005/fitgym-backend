@@ -8,10 +8,12 @@ import org.example.fitgymbackend.repository.IUsuarioRepository;
 import org.example.fitgymbackend.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.example.fitgymbackend.model.response.LoginResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceImp implements IUsuarioService {
@@ -89,6 +91,39 @@ public class UsuarioServiceImp implements IUsuarioService {
     @Override
     public void eliminar(Long id) {
 
+    }
+
+
+
+    @Override
+    public LoginResponse login(String noControl, String huellaDigital) {
+        // 1. Buscar usuario por noControl y huella
+        Optional<Usuario> usuarioOpt = iusuarioRepository.findByNoControlAndHuellaDigital(noControl, huellaDigital);
+
+        // 2. Si existe, login exitoso
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+
+            UsuarioResponse userResponse = new UsuarioResponse();
+            userResponse.setName(usuario.getName());
+            userResponse.setLastName(usuario.getLastName());
+            userResponse.setNoControl(usuario.getNoControl());
+            userResponse.setHuellaDigital(usuario.getHuellaDigital());
+            userResponse.setRol(usuario.getRol());
+            userResponse.setFotoPerfil(usuario.getFotoPerfil());
+
+            return new LoginResponse(true, "Login exitoso. ¡Bienvenido " + usuario.getName() + "!", userResponse);
+        }
+
+        // 3. Si no existe, verificar si el noControl existe (para dar mejor mensaje)
+        // 👇 CAMBIO: Ahora usamos existsByNoControl
+        boolean existeNoControl = iusuarioRepository.existsByNoControl(noControl);
+
+        if (existeNoControl) {
+            return new LoginResponse(false, "Huella digital incorrecta", null);
+        } else {
+            return new LoginResponse(false, "Número de control no encontrado", null);
+        }
     }
 
 

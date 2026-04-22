@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.example.fitgymbackend.model.response.LoginResponse;
+import org.example.fitgymbackend.model.request.LoginRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,20 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<ApiResponse> saveUser(@RequestBody Usuario request) {
         ApiResponse resultado = iUsuarioService.guardar(request);
+
+        if (resultado.isSuccess()) {
+            return ResponseEntity.ok(resultado);
+        } else {
+            return ResponseEntity.badRequest().body(resultado);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse resultado = iUsuarioService.login(
+                request.getNoControl(),
+                request.getHuellaDigital()
+        );
 
         if (resultado.isSuccess()) {
             return ResponseEntity.ok(resultado);

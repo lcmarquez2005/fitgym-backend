@@ -7,6 +7,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
+
+
+    // 👇 CAMBIA: De Optional a List (porque puede haber varios)
+    List<Usuario> findByNoControl(String noControl);
+
+    // 👇 NUEVO: Para verificar si existe al menos uno
+    boolean existsByNoControl(String noControl);
+
+    // 👇 Este sí puede ser Optional porque noControl + huella DEBE ser único
+    Optional<Usuario> findByNoControlAndHuellaDigital(String noControl, String huellaDigital);
+
+
     // Esto te servirá para el Login más adelante
 //    Optional<Usuario> findByEmail(String email);
     // Busca coincidencias parciales (ignora mayúsculas/minúsculas si usas IgnoreCase)

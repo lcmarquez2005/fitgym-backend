@@ -4,6 +4,7 @@ import org.example.fitgymbackend.entity.Usuario;
 import org.example.fitgymbackend.model.request.UsuarioRequest;
 import org.example.fitgymbackend.model.response.ApiResponse;
 import org.example.fitgymbackend.model.response.UsuarioResponse;
+import org.example.fitgymbackend.model.response.LoginResponse;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface IUsuarioService {
     UsuarioResponse obtenerUsuario(Integer id);
     List<UsuarioResponse> buscarUsuarios(String texto);
     void eliminar(Long id);
+
+    LoginResponse login(String noControl, String huellaDigital);
+
 }
