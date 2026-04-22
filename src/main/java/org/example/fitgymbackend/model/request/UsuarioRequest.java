@@ -6,6 +6,7 @@ import lombok.Data;
 public class UsuarioRequest {
 
     private String name;
+    private String lastName;
     private String fotoPerfil;
     private String huellaDigital;
     private String rol;

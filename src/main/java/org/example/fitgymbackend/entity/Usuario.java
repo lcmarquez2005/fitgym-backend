@@ -16,6 +16,10 @@ public class Usuario {
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;
+
+    @Column( name = "last_name", nullable = false, length = 150)
+    private String lastName;
+
     @Column(name = "rol", nullable = false, length = 50)
     private String rol;
 
@@ -24,6 +28,10 @@ public class Usuario {
 
     @Column(name = "huella_digital", nullable = false, length = 100)
     private String huellaDigital;
+
+    @Column( name="no_control", nullable = false, length = 12)
+    private String noControl;
+
 
     @Transient // Esto evita que se cree una columna en la tabla
     private String token;

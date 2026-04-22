@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class UsuarioResponse {
     private String name;
+    private String lastName;
+    private String noControl;
     private String fotoPerfil;
     private String huellaDigital;
     private String rol;
