@@ -11,5 +11,5 @@ public class UsuarioRequest {
     private String huellaDigital;
     private String rol;
     private String token;
-
+    private String noControl;
 }

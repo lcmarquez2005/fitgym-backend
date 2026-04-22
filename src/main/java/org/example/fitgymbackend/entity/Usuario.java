@@ -23,10 +23,10 @@ public class Usuario {
     @Column(name = "rol", nullable = false, length = 50)
     private String rol;
 
-    @Column(name = "foto_perfil", nullable = false, length = 100)
+    @Column(name = "foto_perfil", columnDefinition = "TEXT")
     private String fotoPerfil;
 
-    @Column(name = "huella_digital", nullable = false, length = 100)
+    @Column(name = "huella_digital", nullable = false, length = 255)
     private String huellaDigital;
 
     @Column( name="no_control", nullable = false, length = 12)

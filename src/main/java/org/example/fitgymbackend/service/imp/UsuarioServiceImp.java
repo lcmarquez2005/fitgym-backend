@@ -28,15 +28,24 @@ public class UsuarioServiceImp implements IUsuarioService {
     @Override
     public ApiResponse guardar(Usuario request) {
         try {
-            request.setCreationUser("system");
+            // Validación básica
+            if (request.getNoControl() == null || request.getNoControl().isEmpty()) {
+                return new ApiResponse("El número de control es obligatorio", false, null);
+            }
+
+            // Si no viene creation_user, ponemos 'system'
+            if (request.getCreationUser() == null) {
+                request.setCreationUser("system");
+            }
+
+            // Fecha automática
             request.setCreationDate(LocalDateTime.now());
 
-            // Guardamos directamente
             Usuario userSaved = iusuarioRepository.save(request);
-    //
             return new ApiResponse("Usuario guardado con éxito", true, userSaved);
+
         } catch (Exception e) {
-            return new ApiResponse("Error: " + e.getMessage(), false, null);
+            return new ApiResponse("Error en el servidor: " + e.getMessage(), false, null);
         }
     }
 
