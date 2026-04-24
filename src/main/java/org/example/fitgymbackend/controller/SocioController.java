@@ -29,4 +29,17 @@ public class SocioController {
         return ResponseEntity.ok(new ApiResponse("OK", true, resultados));
     }
 
+    // PUT /socios/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> actualizar(@PathVariable Long id, @RequestBody SocioRequest request) {
+        SocioResponse response = socioService.actualizar(id, request);
+        return ResponseEntity.ok(new ApiResponse("Socio actualizado exitosamente", true, response));
+    }
+
+    // DELETE /socios/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> eliminar(@PathVariable Long id) {
+        socioService.eliminar(id);
+        return ResponseEntity.ok(new ApiResponse("Socio eliminado exitosamente", true, null));
+    }
 }
