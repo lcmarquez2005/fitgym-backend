@@ -1,6 +1,7 @@
 package org.example.fitgymbackend.controller;
 
 import org.example.fitgymbackend.entity.Usuario;
+import org.example.fitgymbackend.model.request.UsuarioRequest;
 import org.example.fitgymbackend.model.response.ApiResponse;
 import org.example.fitgymbackend.model.response.UsuarioResponse;
 import org.example.fitgymbackend.service.IUsuarioService;
@@ -125,4 +126,19 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse> edit(@PathVariable("id") Integer id, @RequestBody UsuarioRequest usuario) {
+        ApiResponse user = iUsuarioService.editarUsuario(id, usuario);
+        return ResponseEntity.ok(user);
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> edit(@PathVariable("id") Integer id) {
+        ApiResponse user = iUsuarioService.eliminar(id);
+        return ResponseEntity.ok(user);
+    }
+
+
 }

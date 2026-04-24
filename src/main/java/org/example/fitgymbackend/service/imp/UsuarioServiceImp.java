@@ -7,6 +7,7 @@ import org.example.fitgymbackend.model.response.UsuarioResponse;
 import org.example.fitgymbackend.repository.IUsuarioRepository;
 import org.example.fitgymbackend.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.example.fitgymbackend.model.response.LoginResponse;
 
@@ -54,7 +55,7 @@ public class UsuarioServiceImp implements IUsuarioService {
     @Override
     public UsuarioResponse obtenerUsuario(Integer id) {
         return iusuarioRepository.findById(id)
-                .map( usuario -> {
+                .map(usuario -> {
                     UsuarioResponse usuarioRes = new UsuarioResponse();
                     usuarioRes.setName(usuario.getName());
                     usuarioRes.setLastName(usuario.getLastName());
@@ -67,6 +68,7 @@ public class UsuarioServiceImp implements IUsuarioService {
                 }) // O el mapeo que uses
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
+
     @Override
     public List<UsuarioResponse> buscarUsuarios(String termino) {
         // 1. Buscamos en la DB (usamos el método que busca en los 3 campos)
@@ -88,11 +90,10 @@ public class UsuarioServiceImp implements IUsuarioService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void eliminar(Long id) {
-
-    }
-
+//    @Override
+//    public void eliminar(Long id) {
+//
+//    }
 
 
     @Override
@@ -126,5 +127,57 @@ public class UsuarioServiceImp implements IUsuarioService {
         }
     }
 
+    //mapeo de usuarioRquest en usuario
+    private Usuario mapeoUsuarioRequest(UsuarioRequest usuario) {
+        Usuario usuarioReq = new Usuario();
+        usuarioReq.setName(usuario.getName());
+        usuarioReq.setLastName(usuario.getLastName());
+        usuarioReq.setNoControl(usuario.getNoControl());
+        usuarioReq.setHuellaDigital(usuario.getHuellaDigital());
+        usuarioReq.setRol(usuario.getRol());
+        usuarioReq.setFotoPerfil(usuario.getFotoPerfil());
+        return usuarioReq;
+    }
 
+    //mapeo de usuarioResponse en usuario
+    private UsuarioResponse mapeoUsuarioResponse(Usuario usuario) {
+        UsuarioResponse usuarioRes = new UsuarioResponse();
+        usuarioRes.setName(usuario.getName());
+        usuarioRes.setLastName(usuario.getLastName());
+        usuarioRes.setNoControl(usuario.getNoControl());
+        usuarioRes.setHuellaDigital(usuario.getHuellaDigital());
+        usuarioRes.setRol(usuario.getRol());
+        usuarioRes.setFotoPerfil(usuario.getFotoPerfil());
+        return usuarioRes;
+    }
+
+    @Override
+    public ApiResponse editarUsuario(Integer id, UsuarioRequest nuevo) {
+        iusuarioRepository.findById(id)
+                .map(usuarioOld -> {
+                    Usuario nuevoUser = mapeoUsuarioRequest(nuevo);
+                    // Agregamos el id para que JPA no cree un usuario nuevo sino que haga update
+                    nuevoUser.setId(id);
+                    Usuario actualizado = iusuarioRepository.save(nuevoUser);
+
+                    return new ApiResponse("Usuario guardado con éxito", true, actualizado);
+                })
+                // Si el findById no encuentra nada, entra aquí:
+                .orElse(new ApiResponse("Error: Usuario con ID " + id + " no existe", false, null));
+    }
+
+    @Override
+    public ApiResponse eliminar(Integer id) {
+        iusuarioRepository.findById(id)
+                .map(usuarioOld -> {
+                    Usuario nuevoUser = mapeoUsuarioRequest(nuevo);
+                    // Agregamos el id para que JPA no cree un usuario nuevo sino que haga update
+                    nuevoUser.setId(id);
+                    Usuario actualizado = iusuarioRepository.save(nuevoUser);
+
+                    return new ApiResponse("Usuario guardado con éxito", true, actualizado);
+                })
+                // Si el findById no encuentra nada, entra aquí:
+                .orElse(new ApiResponse("Error: Usuario con ID " + id + " no existe", false, null));
+    }
 }

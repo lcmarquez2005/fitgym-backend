@@ -12,8 +12,9 @@ public interface IUsuarioService {
     List<Usuario> listarTodos();
     ApiResponse guardar(Usuario usuario);
     UsuarioResponse obtenerUsuario(Integer id);
+    ApiResponse editarUsuario(Integer id, UsuarioRequest nuevo);
     List<UsuarioResponse> buscarUsuarios(String texto);
-    void eliminar(Long id);
+    ApiResponse eliminar(Integer id);
 
     LoginResponse login(String noControl, String huellaDigital);
 
