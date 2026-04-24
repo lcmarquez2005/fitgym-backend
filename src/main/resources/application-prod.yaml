@@ -1,0 +1,17 @@
+spring:
+  mail:
+    host: smtp.gmail.com  # o tu servidor SMTP real
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    dev:
+      mode: false  # Desactiva logs de debug
+
+app:
+  url: https://fitgym.com  # URL de producción

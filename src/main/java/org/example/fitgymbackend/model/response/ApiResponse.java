@@ -1,12 +1,40 @@
 package org.example.fitgymbackend.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
 public class ApiResponse {
     private String message;
     private boolean success;
-    private Object data; // Aquí puedes meter el usuario guardado, una lista, etc.
+    private Object data;
+
+    public ApiResponse() {
+    }
+
+    public ApiResponse(String message, boolean success, Object data) {
+        this.message = message;
+        this.success = success;
+        this.data = data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

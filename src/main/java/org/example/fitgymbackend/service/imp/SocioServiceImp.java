@@ -32,7 +32,40 @@ public class SocioServiceImp implements ISocioService {
         return toResponse(guardado);
     }
 
-    // ── Mappers ──────────────────────────────────────────
+    @Override
+    public SocioResponse actualizar(Long id, SocioRequest request) {
+        Socio socio = socioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Socio no encontrado con id: " + id));
+        socio.setNombreCompleto(request.getNombreCompleto());
+        socio.setTelefono(request.getTelefono());
+        socio.setEmail(request.getEmail());
+        socio.setFechaNacimiento(request.getFechaNacimiento());
+        socio.setSexo(request.getSexo());
+        socio.setContactoEmergencia(request.getContactoEmergencia());
+        socio.setTelefonoEmergencia(request.getTelefonoEmergencia());
+        socio.setIdSocio(request.getIdSocio());
+        socio.setFechaRegistro(request.getFechaRegistro());
+        socio.setEstatus(request.getEstatus());
+        socio.setTipoMembresia(request.getTipoMembresia());
+        socio.setDescuento(request.getDescuento());
+        socio.setCostoMensual(request.getCostoMensual());
+        socio.setFechaInicio(request.getFechaInicio());
+        socio.setFechaFin(request.getFechaFin());
+        socio.setLesiones(request.getLesiones());
+        socio.setAlergias(request.getAlergias());
+        socio.setExtras(request.getExtras());
+        socio.setFoto(request.getFoto());
+        return toResponse(socioRepository.save(socio));
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!socioRepository.existsById(id)) {
+            throw new RuntimeException("Socio no encontrado con id: " + id);
+        }
+        socioRepository.deleteById(id);
+    }
+
     private Socio toEntity(SocioRequest r) {
         Socio s = new Socio();
         s.setNombreCompleto(r.getNombreCompleto());

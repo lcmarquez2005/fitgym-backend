@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.example.fitgymbackend.model.response.LoginResponse;
-import org.example.fitgymbackend.model.request.LoginRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -32,20 +30,6 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<ApiResponse> saveUser(@RequestBody Usuario request) {
         ApiResponse resultado = iUsuarioService.guardar(request);
-
-        if (resultado.isSuccess()) {
-            return ResponseEntity.ok(resultado);
-        } else {
-            return ResponseEntity.badRequest().body(resultado);
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse resultado = iUsuarioService.login(
-                request.getNoControl(),
-                request.getHuellaDigital()
-        );
 
         if (resultado.isSuccess()) {
             return ResponseEntity.ok(resultado);
@@ -72,26 +56,22 @@ public class UsuarioController {
         return ResponseEntity.ok(resultados);
     }
 
-    // 👇 NUEVO ENDPOINT PARA SUBIR FOTOS
     @PostMapping("/upload-photo")
     public ResponseEntity<Map<String, String>> uploadPhoto(@RequestParam("file") MultipartFile file) {
         try {
-            // 1. Validar que el archivo no esté vacío
             if (file.isEmpty()) {
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "El archivo está vacío");
+                error.put("error", "El archivo esta vacio");
                 return ResponseEntity.badRequest().body(error);
             }
 
-            // 2. Validar tipo de archivo (solo imágenes)
             String contentType = file.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "Solo se permiten imágenes");
+                error.put("error", "Solo se permiten imagenes");
                 return ResponseEntity.badRequest().body(error);
             }
 
-            // 3. Generar nombre único para evitar colisiones
             String originalFilename = file.getOriginalFilename();
             String extension = "";
             if (originalFilename != null && originalFilename.contains(".")) {
@@ -99,18 +79,15 @@ public class UsuarioController {
             }
             String fileName = UUID.randomUUID().toString() + extension;
 
-            // 4. Definir ruta de guardado
             String uploadDir = System.getProperty("user.dir") + "/uploads/fotos/";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
-                directory.mkdirs();  // Crea todas las carpetas necesarias
+                directory.mkdirs();
             }
 
-            // 5. Guardar archivo en el disco
             Path filePath = Paths.get(uploadDir + fileName);
             Files.write(filePath, file.getBytes());
 
-            // 6. Devolver la URL relativa
             String fileUrl = "/uploads/fotos/" + fileName;
 
             Map<String, String> response = new HashMap<>();
