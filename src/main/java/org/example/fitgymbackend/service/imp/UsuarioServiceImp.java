@@ -115,6 +115,11 @@ public class UsuarioServiceImp implements IUsuarioService {
         usuario.setRol("USER");
         usuario.setEnabled(false);
         usuario.setNoControl("PENDIENTE");
+
+        // 👇 NUEVAS LÍNEAS (arreglan el error)
+        usuario.setFotoPerfil("");           // String vacío
+        usuario.setHuellaDigital("PENDIENTE"); // Valor temporal
+
         usuario.setCreationUser("system");
         usuario.setCreationDate(LocalDateTime.now());
 
