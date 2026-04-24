@@ -8,4 +8,6 @@ import java.util.List;
 public interface ISocioService {
     List<SocioResponse> buscar(String q);
     SocioResponse registrar(SocioRequest request);
+    SocioResponse actualizar(Long id, SocioRequest request);
+    void eliminar(Long id);
 }
