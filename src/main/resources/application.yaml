@@ -11,4 +11,29 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  # CONFIGURACION MAILTRAP (Desarrollo)
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: fbea06ccf14751
+    password: b80c2bf7e019a0
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+app:
+  jwt:
+    secret: "MiClaveSecretaSuperSegura1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    expiration-ms: 86400000  # 24 horas
+    reset-expiration-ms: 3600000  # 1 hora (para reset password)
+
+# URL BASE para links en emails
+app-url: "http://localhost:5173"
