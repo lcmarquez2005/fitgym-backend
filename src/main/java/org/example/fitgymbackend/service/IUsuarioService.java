@@ -5,6 +5,7 @@ import org.example.fitgymbackend.dto.LoginRequest;
 import org.example.fitgymbackend.dto.RegisterRequest;
 import org.example.fitgymbackend.dto.ResetPasswordRequest;
 import org.example.fitgymbackend.dto.ForgotPasswordRequest;
+import org.example.fitgymbackend.dto.ChangePasswordRequest;
 import org.example.fitgymbackend.entity.Usuario;
 import org.example.fitgymbackend.model.response.ApiResponse;
 import org.example.fitgymbackend.model.response.UsuarioResponse;
@@ -26,4 +27,6 @@ public interface IUsuarioService {
     ApiResponse forgotPassword(ForgotPasswordRequest request);
     ApiResponse resetPassword(ResetPasswordRequest request);
     ApiResponse getProfile(String email);
+    ApiResponse changePassword(String email, ChangePasswordRequest request);
+    ApiResponse deleteAccount(String email, String password);
 }

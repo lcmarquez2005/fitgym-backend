@@ -245,6 +245,65 @@ public class UsuarioServiceImp implements IUsuarioService {
     }
 
     @Override
+    @Transactional
+    public ApiResponse changePassword(String email, ChangePasswordRequest request) {
+        // 1. Buscar usuario por email
+        Optional<Usuario> userOpt = iusuarioRepository.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            return new ApiResponse("Usuario no encontrado", false, null);
+        }
+
+        Usuario usuario = userOpt.get();
+
+        // 2. Verificar contraseña actual
+        if (!passwordEncoder.matches(request.getCurrentPassword(), usuario.getPassword())) {
+            return new ApiResponse("La contrasena actual es incorrecta", false, null);
+        }
+
+        // 3. Verificar que la nueva sea diferente
+        if (passwordEncoder.matches(request.getNewPassword(), usuario.getPassword())) {
+            return new ApiResponse("La nueva contrasena no puede ser igual a la actual", false, null);
+        }
+
+        // 4. Cambiar contraseña
+        usuario.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        iusuarioRepository.save(usuario);
+
+        return new ApiResponse("Contrasena actualizada exitosamente", true, null);
+    }
+
+    @Override
+    @Transactional
+    public ApiResponse deleteAccount(String email, String password) {
+        // 1. Buscar usuario
+        Optional<Usuario> userOpt = iusuarioRepository.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            return new ApiResponse("Usuario no encontrado", false, null);
+        }
+
+        Usuario usuario = userOpt.get();
+
+        // 2. Verificar contraseña antes de eliminar (seguridad)
+        if (!passwordEncoder.matches(password, usuario.getPassword())) {
+            return new ApiResponse("Contrasena incorrecta. No se puede eliminar la cuenta.", false, null);
+        }
+
+        // 3. Eliminar usuario
+        iusuarioRepository.delete(usuario);
+
+        // 4. Enviar email de despedida (opcional)
+        try {
+            emailService.sendGoodbyeEmail(usuario.getEmail(), usuario.getName());
+        } catch (Exception e) {
+            // No pasa nada si falla el email
+        }
+
+        return new ApiResponse("Cuenta eliminada exitosamente. Te extranaremos!", true, null);
+    }
+
+    @Override
     public ApiResponse getProfile(String email) {
         Optional<Usuario> userOpt = iusuarioRepository.findByEmail(email);
 
