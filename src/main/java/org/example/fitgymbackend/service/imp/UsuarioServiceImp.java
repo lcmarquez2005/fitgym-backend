@@ -153,11 +153,15 @@ public class UsuarioServiceImp implements IUsuarioService {
 
     @Override
     public ApiResponse editarUsuario(Integer id, UsuarioRequest nuevo) {
-        iusuarioRepository.findById(id)
+        return iusuarioRepository.findById(id)
                 .map(usuarioOld -> {
                     Usuario nuevoUser = mapeoUsuarioRequest(nuevo);
                     // Agregamos el id para que JPA no cree un usuario nuevo sino que haga update
                     nuevoUser.setId(id);
+                    nuevoUser.setCreationDate(usuarioOld.getCreationDate());
+                    nuevoUser.setModificationDate(LocalDateTime.now());
+                    nuevoUser.setCreationUser(usuarioOld.getCreationUser());
+                    nuevoUser.setModificationUser("Usuario Modificador");
                     Usuario actualizado = iusuarioRepository.save(nuevoUser);
 
                     return new ApiResponse("Usuario guardado con éxito", true, actualizado);
@@ -168,16 +172,12 @@ public class UsuarioServiceImp implements IUsuarioService {
 
     @Override
     public ApiResponse eliminar(Integer id) {
-        iusuarioRepository.findById(id)
+        return iusuarioRepository.findById(id)
                 .map(usuarioOld -> {
-                    Usuario nuevoUser = mapeoUsuarioRequest(nuevo);
-                    // Agregamos el id para que JPA no cree un usuario nuevo sino que haga update
-                    nuevoUser.setId(id);
-                    Usuario actualizado = iusuarioRepository.save(nuevoUser);
-
-                    return new ApiResponse("Usuario guardado con éxito", true, actualizado);
+                    iusuarioRepository.deleteById(id);
+                    return new ApiResponse("Usuario borrado con éxito", true, usuarioOld);
                 })
                 // Si el findById no encuentra nada, entra aquí:
-                .orElse(new ApiResponse("Error: Usuario con ID " + id + " no existe", false, null));
+                .orElse( new ApiResponse("Error: Usuario con ID " + id + " no existe", false, null));
     }
 }

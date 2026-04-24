@@ -127,15 +127,15 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> edit(@PathVariable("id") Integer id, @RequestBody UsuarioRequest usuario) {
         ApiResponse user = iUsuarioService.editarUsuario(id, usuario);
         return ResponseEntity.ok(user);
     }
 
 
-    @DeleteMapping
-    public ResponseEntity<ApiResponse> edit(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> delete(@PathVariable("id") Integer id) {
         ApiResponse user = iUsuarioService.eliminar(id);
         return ResponseEntity.ok(user);
     }
