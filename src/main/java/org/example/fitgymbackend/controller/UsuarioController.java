@@ -66,6 +66,7 @@ public class UsuarioController {
         return ResponseEntity.ok(user);
     }
 
+
     @GetMapping("/search")
     public ResponseEntity<List<UsuarioResponse>> filtrarUsuarios(@RequestParam String q) {
         List<UsuarioResponse> resultados = iUsuarioService.buscarUsuarios(q);

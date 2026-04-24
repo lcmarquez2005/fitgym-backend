@@ -58,6 +58,7 @@ public class SocioServiceImp implements ISocioService {
         return toResponse(socioRepository.save(socio));
     }
 
+
     @Override
     public void eliminar(Long id) {
         if (!socioRepository.existsById(id)) {
@@ -88,6 +89,7 @@ public class SocioServiceImp implements ISocioService {
         s.setExtras(r.getExtras());
         s.setFoto(r.getFoto());
         return s;
+
     }
 
     private SocioResponse toResponse(Socio s) {
@@ -113,5 +115,6 @@ public class SocioServiceImp implements ISocioService {
         r.setExtras(s.getExtras());
         r.setFoto(s.getFoto());
         return r;
+
     }
 }

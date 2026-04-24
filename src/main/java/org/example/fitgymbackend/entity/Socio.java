@@ -2,7 +2,6 @@ package org.example.fitgymbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 @Data
 @Entity
 @Table(name = "socios")
@@ -11,7 +10,6 @@ public class Socio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombreCompleto;
     private String telefono;
     private String email;

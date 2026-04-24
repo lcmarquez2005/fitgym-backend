@@ -37,6 +37,7 @@ public class SocioController {
     }
 
     // DELETE /socios/{id}
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> eliminar(@PathVariable Long id) {
         socioService.eliminar(id);
