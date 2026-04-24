@@ -1,10 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://database-fitgym.cpcio88easmg.us-east-2.rds.amazonaws.com:3306/fitgym_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: admin
+    password: acfse15kpSA
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,9 +11,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        #dialect: org.hibernate.dialect.MySQL8Dialect
 
-  # CONFIGURACIÓN MAILTRAP (Desarrollo)
+  # CONFIGURACION MAILTRAP (Desarrollo)
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 2525
@@ -29,9 +27,6 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
-    # Perfil de desarrollo (mailtrap)
-    dev:
-      mode: true  # 👈 Para logs adicionales en consola
 
 app:
   jwt:
@@ -39,5 +34,5 @@ app:
     expiration-ms: 86400000  # 24 horas
     reset-expiration-ms: 3600000  # 1 hora (para reset password)
 
-# 👇 URL BASE para links en emails
+# URL BASE para links en emails
 app-url: "http://localhost:5173"

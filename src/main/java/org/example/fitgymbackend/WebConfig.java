@@ -1,4 +1,3 @@
-// WebConfig.java (ACTUALIZADO)
 package org.example.fitgymbackend;
 
 import org.springframework.context.annotation.Bean;
