@@ -7,9 +7,48 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update #De hibernate - actualiza tabla automaticamente
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        #dialect: org.hibernate.dialect.MySQL8Dialect
 
+  # CONFIGURACIÓN MAILTRAP (Desarrollo)
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: fbea06ccf14751
+    password: b80c2bf7e019a0
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    # Perfil de desarrollo (mailtrap)
+    dev:
+      mode: true  # 👈 Para logs adicionales en consola
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+#  JWT
+jwt:
+  secret: FitGymSuperSecretKeyForJWTGeneration2024!CambiarEnProduccion
+  expiration: 86400000
+
+#  URL del frontend (para links en emails)
+app:
+  url: http://localhost:5173
+
+#  Logging
+logging:
+  level:
+    org.springframework.mail: DEBUG
+    org.example.fitgymbackend: DEBUG
