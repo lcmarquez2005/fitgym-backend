@@ -1,20 +1,29 @@
+// service/IUsuarioService.java
 package org.example.fitgymbackend.service;
 
+import org.example.fitgymbackend.dto.LoginRequest;
+import org.example.fitgymbackend.dto.RegisterRequest;
+import org.example.fitgymbackend.dto.ResetPasswordRequest;
+import org.example.fitgymbackend.dto.ForgotPasswordRequest;
 import org.example.fitgymbackend.entity.Usuario;
-import org.example.fitgymbackend.model.request.UsuarioRequest;
 import org.example.fitgymbackend.model.response.ApiResponse;
 import org.example.fitgymbackend.model.response.UsuarioResponse;
-import org.example.fitgymbackend.model.response.LoginResponse;
 
 import java.util.List;
 
 public interface IUsuarioService {
+    // Métodos antiguos
     List<Usuario> listarTodos();
     ApiResponse guardar(Usuario usuario);
     UsuarioResponse obtenerUsuario(Integer id);
     List<UsuarioResponse> buscarUsuarios(String texto);
     void eliminar(Long id);
 
-    LoginResponse login(String noControl, String huellaDigital);
-
+    // 👇 NUEVOS MÉTODOS DE AUTH
+    ApiResponse register(RegisterRequest request);
+    ApiResponse verifyEmail(String token);
+    ApiResponse login(LoginRequest request);
+    ApiResponse forgotPassword(ForgotPasswordRequest request);
+    ApiResponse resetPassword(ResetPasswordRequest request);
+    ApiResponse getProfile(String email);
 }

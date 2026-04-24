@@ -1,9 +1,10 @@
+// controller/AuthController.java
 package org.example.fitgymbackend.controller;
 
-import org.example.fitgymbackend.model.request.*;
+import jakarta.validation.Valid;
+import org.example.fitgymbackend.dto.*;
 import org.example.fitgymbackend.model.response.ApiResponse;
-import org.example.fitgymbackend.model.response.AuthResponse;
-import org.example.fitgymbackend.service.AuthService;
+import org.example.fitgymbackend.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,65 +14,55 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
+    private IUsuarioService usuarioService;
 
-    // 📝 Registro con verificación
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@RequestBody RegisterRequest request) {
-        ApiResponse response = authService.register(request);
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterRequest request) {
+        ApiResponse response = usuarioService.register(request);
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
         }
-        return ResponseEntity.badRequest().body(response);
     }
 
-    // ✅ Verificar email
     @GetMapping("/verify-email")
     public ResponseEntity<ApiResponse> verifyEmail(@RequestParam String token) {
-        ApiResponse response = authService.verificarEmail(token);
+        ApiResponse response = usuarioService.verifyEmail(token);
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
         }
-        return ResponseEntity.badRequest().body(response);
     }
 
-    // 🔐 Login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        try {
-            AuthResponse response = authService.login(request);
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request) {
+        ApiResponse response = usuarioService.login(request);
+
+        if (response.isSuccess()) {
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage(), false, null));
+        } else {
+            return ResponseEntity.status(401).body(response);
         }
     }
 
-    // 🤔 Olvidé contraseña
     @PostMapping("/forgot-password")
-    public ResponseEntity<ApiResponse> forgotPassword(@RequestBody ForgotPasswordRequest request) {
-        ApiResponse response = authService.forgotPassword(request);
+    public ResponseEntity<ApiResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        ApiResponse response = usuarioService.forgotPassword(request);
         return ResponseEntity.ok(response);
     }
 
-    // 🔄 Resetear contraseña
     @PostMapping("/reset-password")
-    public ResponseEntity<ApiResponse> resetPassword(@RequestBody ResetPasswordRequest request) {
-        ApiResponse response = authService.resetPassword(request);
+    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        ApiResponse response = usuarioService.resetPassword(request);
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.badRequest().body(response);
-    }
-
-    // 🔍 Obtener usuario actual
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
-        try {
-            String token = authHeader.substring(7);
-            AuthResponse userInfo = authService.getUserFromToken(token);
-            return ResponseEntity.ok(userInfo);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiResponse("Token inválido", false, null));
+        } else {
+            return ResponseEntity.badRequest().body(response);
         }
     }
 }

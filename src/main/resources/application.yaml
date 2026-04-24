@@ -33,22 +33,11 @@ spring:
     dev:
       mode: true  # 👈 Para logs adicionales en consola
 
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
-
-#  JWT
-jwt:
-  secret: FitGymSuperSecretKeyForJWTGeneration2024!CambiarEnProduccion
-  expiration: 86400000
-
-#  URL del frontend (para links en emails)
 app:
-  url: http://localhost:5173
+  jwt:
+    secret: "MiClaveSecretaSuperSegura1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    expiration-ms: 86400000  # 24 horas
+    reset-expiration-ms: 3600000  # 1 hora (para reset password)
 
-#  Logging
-logging:
-  level:
-    org.springframework.mail: DEBUG
-    org.example.fitgymbackend: DEBUG
+# 👇 URL BASE para links en emails
+app-url: "http://localhost:5173"

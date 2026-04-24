@@ -1,10 +1,9 @@
+// config/SecurityConfig.java
 package org.example.fitgymbackend.config;
 
-import org.example.fitgymbackend.security.JwtAuthenticationFilter;
+import org.example.fitgymbackend.security.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,38 +16,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final JwtRequestFilter jwtRequestFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configure(http))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 👇 Endpoints PÚBLICOS (no requieren token)
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/uploads/**").permitAll()
-                        // 👇 Endpoints PROTEGIDOS (requieren token)
-                        .requestMatchers("/api/users/**").authenticated()
-                        .anyRequest().permitAll()
+                        // 👇 ENDPOINTS PÚBLICOS (NO requieren token)
+                        .requestMatchers(
+                                "/api/auth/**",           // Login, registro, reset password
+                                "/api/users/upload-photo", // Subir fotos
+                                "/api/users",             // 👈 GET y POST de usuarios (temporal)
+                                "/api/users/**",          // 👈 Cualquier subruta de users (temporal)
+                                "/uploads/**"             // Archivos estáticos
+                        ).permitAll()
+                        // 👇 CUALQUIER OTRA COSA requiere autenticación
+                        .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // Equivalente a bcrypt en Node.js
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return new BCryptPasswordEncoder();
     }
 }
