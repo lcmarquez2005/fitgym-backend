@@ -14,8 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collections;
 
-@Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+@Component //Anotacion que Crea una instancia de esta clase automáticamente y spring la tiene lista para cuando la necesite el SecurityConfig
+public class JwtRequestFilter extends OncePerRequestFilter {  //extends OncePerRequestFilter: Esta es una clase de Spring Security que garantiza que este filtro se ejecute exactamente una vez por cada petición que llegue al servidor. No queremos revisar el token tres veces en la misma llamada.
 
     private final JwtUtil jwtUtil;
 
@@ -23,7 +23,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    @Override
+    @Override  //Anotación para sobreescribir el metodo que ya existe en la clase padre o en la interfaz que se esta usando
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain)

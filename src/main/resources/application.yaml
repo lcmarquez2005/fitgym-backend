@@ -30,6 +30,7 @@ spring:
           writetimeout: 5000
 
 app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
   jwt:
     secret: "MiClaveSecretaSuperSegura1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     expiration-ms: 86400000  # 24 horas
