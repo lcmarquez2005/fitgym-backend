@@ -1,38 +1,55 @@
 /*
-* WebConfig.java: Se encarga de la infraestructura del protocolo HTTP (CORS, rutas de archivos, formateadores de fechas). Es parte de la capa de presentación/MVC.
-*/
+ * WebConfig.java: Configura CORS global y recursos estáticos.
+ *
+ * IMPORTANTE: Se usa CorsFilter como @Bean en lugar de WebMvcConfigurer
+ * porque el CorsFilter se ejecuta ANTES de Spring Security, garantizando
+ * que los preflight OPTIONS siempre reciban la respuesta correcta.
+ */
 package org.example.fitgymbackend.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration //informa a springboot de que esta clase es importante para configuraciones
-public class WebConfig {
+import java.util.Arrays;
+import java.util.List;
 
-    @Value("${app.frontend-url}") //Para traer un dato desde el .yml
-    private String frontendUrl;
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
 
-    @Bean //Le indica a Spring que el objeto que devuelve ese método debe ser guardado en el "contenedor de Spring" para que otras partes del código puedan usarlo
-    public WebMvcConfigurer corsConfigurer() { //configuración de los CORS
-        return new WebMvcConfigurer() {
-            @Override //Anotación para sobreescribir el metodo que ya existe en la clase padre o en la interfaz que se esta usando
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") //Aplica esta regla a todas las rutas del servidor
-                        .allowedOrigins(frontendUrl) //Permite peticiones desde el frontend (cambia en producción)
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") //Define qué "verbos" HTTP están permitidos.
-                        .allowedHeaders("*") //PErmite todos las opciones de headers
-                        .allowCredentials(true); //Permite que las peticiones incluyan cookies o el encabezado de Autorización (muy importante para JWT).
-            }
+    @Value("${app.frontend-urls}")
+    private String frontendUrlsRaw;
 
-            @Override //Anotación para sobreescribir el metodo que ya existe en la clase padre o en la interfaz que se esta usando
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/uploads/**") //Spring, Si alguien pide una URL que empiece con /uploads/, no busques un Controller, busca un archivo real
-                        .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/"); //Le dice que busque en una carpeta llamada uploads dentro de tu proyecto.
-            }
-        };
+    /**
+     * CorsFilter registrado como Bean de alta prioridad.
+     * Intercepta ANTES que Spring Security → los preflight OPTIONS siempre pasan.
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        // Parsear la lista separada por comas del .env
+        List<String> allowedOrigins = Arrays.asList(frontendUrlsRaw.split(","));
+
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(allowedOrigins);
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L); // Cache preflight 1 hora
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // Aplica a TODAS las rutas
+
+        return new CorsFilter(source);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
     }
 }

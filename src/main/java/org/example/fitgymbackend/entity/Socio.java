@@ -2,6 +2,7 @@ package org.example.fitgymbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -15,18 +16,18 @@ public class Socio {
     private String nombreCompleto;
     private String telefono;
     private String email;
-    private String fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String sexo;
     private String contactoEmergencia;
     private String telefonoEmergencia;
     private String idSocio;
-    private String fechaRegistro;
+    private LocalDate fechaRegistro;
     private String estatus;
     private String tipoMembresia;
     private String descuento;
     private String costoMensual;
-    private String fechaInicio;
-    private String fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private String lesiones;
     private String alergias;
     private String extras;

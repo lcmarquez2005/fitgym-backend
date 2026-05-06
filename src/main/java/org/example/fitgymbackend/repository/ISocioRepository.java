@@ -14,4 +14,7 @@ public interface ISocioRepository extends JpaRepository<Socio, Long> {
             "LOWER(s.email)         LIKE LOWER(CONCAT('%', :q, '%')) OR " +
             "LOWER(s.idSocio)       LIKE LOWER(CONCAT('%', :q, '%'))")
     List<Socio> buscar(@Param("q") String q);
+
+    List<Socio> findByEstatus(String estatus);
+    List<Socio> findByEstatusNot(String estatus);
 }
