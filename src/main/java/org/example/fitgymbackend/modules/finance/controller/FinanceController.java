@@ -29,13 +29,7 @@ public class FinanceController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/reportes/estado-resultados")
-    public ResponseEntity<ApiResponse> obtenerEstadoResultados(
-            @RequestParam int anio,
-            @RequestParam int mes) {
-        ApiResponse response = financeReportService.obtenerEstadoResultados(anio, mes);
-        return ResponseEntity.ok(response);
-    }
+    // El método obtenerEstadoResultados fue movido a ReportesController
 
     // Métodos auxiliares para obtener ID de usuario
     private Integer getUserIdFromToken(String authHeader) {

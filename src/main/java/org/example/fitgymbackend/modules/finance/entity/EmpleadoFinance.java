@@ -17,7 +17,7 @@ public class EmpleadoFinance {
 
     // Relación real con la tabla de usuarios del ERP
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id", unique = true)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", unique = true, columnDefinition = "int")
     @JsonIgnoreProperties({"password", "resetToken", "resetTokenExpiry", "huellaDigital"})
     private Usuario usuario;
 
