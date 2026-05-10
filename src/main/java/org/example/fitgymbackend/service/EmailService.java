@@ -19,6 +19,14 @@ public class EmailService {
     private String appUrl;
 
     /**
+     * Metodo generico para campanas de marketing
+     */
+    @Async
+    public void sendMarketingEmail(String to, String subject, String htmlContent) {
+        sendEmail(to, subject, htmlContent);
+    }
+
+    /**
      * Envia email de verificacion de cuenta
      */
     @Async

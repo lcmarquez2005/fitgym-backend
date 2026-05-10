@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 "/api/users/upload-photo",
                                 "/api/users",
                                 "/api/users/**",
+                                "/api/marketing/**",
                                 "/uploads/**"
                         ).permitAll()
                         // Todo lo demás requiere JWT
