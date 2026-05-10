@@ -33,7 +33,7 @@ public class FinanceController {
 
     // Métodos auxiliares para obtener ID de usuario
     private Integer getUserIdFromToken(String authHeader) {
-        // Por simplificar, si usamos email para obtener id. 
+        // Por simplificar, si usamos email para obtener id.
         // Aqui simularemos retornar 1 o extraer el ID real del token.
         return 1; // TO-DO: Extraer correctamente del token
     }
@@ -42,10 +42,10 @@ public class FinanceController {
     public ResponseEntity<ApiResponse> abrirCaja(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody CajaAperturaRequest request) {
-        
+
         Integer usuarioId = getUserIdFromToken(authHeader);
         ApiResponse response = financeService.abrirCaja(usuarioId, request.getSaldoInicial());
-        
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
@@ -56,10 +56,10 @@ public class FinanceController {
     @PostMapping("/caja/cerrar")
     public ResponseEntity<ApiResponse> cerrarCaja(
             @RequestHeader("Authorization") String authHeader) {
-        
+
         Integer usuarioId = getUserIdFromToken(authHeader);
         ApiResponse response = financeService.cerrarCaja(usuarioId);
-        
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
@@ -80,19 +80,23 @@ public class FinanceController {
     @PostMapping("/transaccion")
     public ResponseEntity<ApiResponse> registrarTransaccion(
             @RequestBody TransaccionRequest request) {
-        
+
         ApiResponse response = financeService.registrarTransaccion(
                 request.getTipo(),
                 request.getCategoria(),
                 request.getMonto(),
                 request.getDescripcion(),
-                request.getRequiereFactura()
-        );
-        
+                request.getRequiereFactura());
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping("/caja/transacciones")
+    public ResponseEntity<ApiResponse> obtenerTransaccionesCaja() {
+        return ResponseEntity.ok(financeService.obtenerTransaccionesCajaActual());
     }
 }

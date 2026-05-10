@@ -47,7 +47,7 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
 
         // ── KPIs del día ──────────────────────────────────────
         BigDecimal ingresosHoy = sumarPorTipo("INGRESO", hoyInicio, hoyFin);
-        BigDecimal egresosHoy  = sumarPorTipo("EGRESO",  hoyInicio, hoyFin);
+        BigDecimal egresosHoy = sumarPorTipo("EGRESO", hoyInicio, hoyFin);
         BigDecimal utilidadHoy = ingresosHoy.subtract(egresosHoy);
 
         dto.setIngresosHoy(ingresosHoy);
@@ -69,11 +69,11 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
         // ── Comparativa semanal ───────────────────────────────
         LocalDateTime semanaActualInicio = hoyInicio.minusDays(hoy.getDayOfWeek().getValue() - 1);
         LocalDateTime semanaPasadaInicio = semanaActualInicio.minusWeeks(1);
-        LocalDateTime semanaPasadaFin    = semanaActualInicio.minusSeconds(1);
+        LocalDateTime semanaPasadaFin = semanaActualInicio.minusSeconds(1);
 
-        BigDecimal semActual   = sumarPorTipo("INGRESO", semanaActualInicio, hoyFin);
-        BigDecimal semPasada   = sumarPorTipo("INGRESO", semanaPasadaInicio, semanaPasadaFin);
-        BigDecimal variacion   = semActual.subtract(semPasada);
+        BigDecimal semActual = sumarPorTipo("INGRESO", semanaActualInicio, hoyFin);
+        BigDecimal semPasada = sumarPorTipo("INGRESO", semanaPasadaInicio, semanaPasadaFin);
+        BigDecimal variacion = semActual.subtract(semPasada);
 
         dto.setIngresosSemanaActual(semActual);
         dto.setIngresosSemanaPasada(semPasada);
@@ -88,12 +88,12 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
         List<Socio> todosSocios = socioRepository.findAll();
         LocalDate manana = hoy.plusDays(1);
 
-        List<ReporteDashboardDTO.SocioInfoDTO> conDeuda     = new ArrayList<>();
+        List<ReporteDashboardDTO.SocioInfoDTO> conDeuda = new ArrayList<>();
         List<ReporteDashboardDTO.SocioInfoDTO> vencenManana = new ArrayList<>();
         Map<String, Integer> membresiasActivas = new HashMap<>();
 
-        int vencenHoy   = 0;
-        int deudaMas5   = 0;
+        int vencenHoy = 0;
+        int deudaMas5 = 0;
 
         for (Socio s : todosSocios) {
             LocalDate fechaFin = s.getFechaFin();
@@ -105,10 +105,12 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
 
             if (fechaFin != null) {
                 // Vencen hoy
-                if (isActivo && fechaFin.isEqual(hoy)) vencenHoy++;
+                if (isActivo && fechaFin.isEqual(hoy))
+                    vencenHoy++;
 
                 // Vencen mañana
-                if (isActivo && fechaFin.isEqual(manana)) vencenManana.add(mapSocioToInfo(s));
+                if (isActivo && fechaFin.isEqual(manana))
+                    vencenManana.add(mapSocioToInfo(s));
 
                 // Deuda: fecha ya expiró
                 if (fechaFin.isBefore(hoy)) {
@@ -116,7 +118,8 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
                     ReporteDashboardDTO.SocioInfoDTO info = mapSocioToInfo(s);
                     info.setDiasDeuda(diasDeuda);
                     conDeuda.add(info);
-                    if (diasDeuda > 5) deudaMas5++;
+                    if (diasDeuda > 5)
+                        deudaMas5++;
                 }
             } else if (!isActivo) {
                 conDeuda.add(mapSocioToInfo(s));
@@ -161,12 +164,12 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
     @Override
     public ApiResponse obtenerEstadoResultados(int anio, int mes) {
         LocalDate inicio = LocalDate.of(anio, mes, 1);
-        LocalDate fin    = inicio.withDayOfMonth(inicio.lengthOfMonth());
+        LocalDate fin = inicio.withDayOfMonth(inicio.lengthOfMonth());
         LocalDateTime dtInicio = LocalDateTime.of(inicio, LocalTime.MIN);
-        LocalDateTime dtFin    = LocalDateTime.of(fin,    LocalTime.MAX);
+        LocalDateTime dtFin = LocalDateTime.of(fin, LocalTime.MAX);
 
         List<Transaccion> ingresos = transaccionRepository.findByTipoAndFechaBetween("INGRESO", dtInicio, dtFin);
-        List<Transaccion> egresos  = transaccionRepository.findByTipoAndFechaBetween("EGRESO",  dtInicio, dtFin);
+        List<Transaccion> egresos = transaccionRepository.findByTipoAndFechaBetween("EGRESO", dtInicio, dtFin);
 
         EstadoResultadosDTO er = new EstadoResultadosDTO();
         er.setPeriodo(inicio.getMonth().getDisplayName(java.time.format.TextStyle.FULL,
@@ -176,9 +179,9 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
         er.setTotalTransacciones(ingresos.size() + egresos.size());
 
         // ── INGRESOS por categoría ────────────────────────────
-        BigDecimal porMembresia  = sumarCategoria(ingresos, "MEMBRESIA");
+        BigDecimal porMembresia = sumarCategoria(ingresos, "MEMBRESIA");
         BigDecimal porSuplemento = sumarCategoria(ingresos, "SUPLEMENTO");
-        BigDecimal porClases     = sumarCategoria(ingresos, "CLASE");
+        BigDecimal porClases = sumarCategoria(ingresos, "CLASE");
         BigDecimal otrosIngresos = ingresos.stream()
                 .filter(t -> !categoriaEn(t, "MEMBRESIA", "SUPLEMENTO", "CLASE"))
                 .map(Transaccion::getMonto).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -191,12 +194,12 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
         er.setOtrosIngresos(otrosIngresos);
 
         // ── COSTOS (egresos por categoría) ───────────────────
-        BigDecimal costosNomina    = sumarCategoria(egresos, "NOMINA");
+        BigDecimal costosNomina = sumarCategoria(egresos, "NOMINA");
         BigDecimal costosProductos = sumarCategoria(egresos, "INVENTARIO").add(sumarCategoria(egresos, "SUPLEMENTO"));
-        BigDecimal gastosRenta     = sumarCategoria(egresos, "RENTA");
+        BigDecimal gastosRenta = sumarCategoria(egresos, "RENTA");
         BigDecimal gastosServicios = sumarCategoria(egresos, "SERVICIOS");
         BigDecimal gastosMantenimiento = sumarCategoria(egresos, "MANTENIMIENTO");
-        BigDecimal otrosCostos     = egresos.stream()
+        BigDecimal otrosCostos = egresos.stream()
                 .filter(t -> !categoriaEn(t, "NOMINA", "INVENTARIO", "SUPLEMENTO",
                         "RENTA", "SERVICIOS", "MANTENIMIENTO"))
                 .map(Transaccion::getMonto).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -211,7 +214,7 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
         er.setGastosOperativos(gastosOperativos);
 
         // ── UTILIDADES ───────────────────────────────────────
-        BigDecimal utilidadBruta     = totalIngresos.subtract(costosTotales);
+        BigDecimal utilidadBruta = totalIngresos.subtract(costosTotales);
         BigDecimal utilidadOperativa = utilidadBruta.subtract(gastosOperativos);
         BigDecimal isr = utilidadOperativa.compareTo(BigDecimal.ZERO) > 0
                 ? utilidadOperativa.multiply(new BigDecimal("0.30"))
@@ -253,12 +256,15 @@ public class FinanceReportServiceImpl implements IFinanceReportService {
     }
 
     private boolean categoriaEn(Transaccion t, String... cats) {
-        for (String c : cats) if (c.equalsIgnoreCase(t.getCategoria())) return true;
+        for (String c : cats)
+            if (c.equalsIgnoreCase(t.getCategoria()))
+                return true;
         return false;
     }
 
     private String calcularHoraPico(List<Transaccion> transacciones) {
-        if (transacciones.isEmpty()) return "N/A";
+        if (transacciones.isEmpty())
+            return "N/A";
         Map<Integer, BigDecimal> sumaPorHora = new HashMap<>();
         for (Transaccion t : transacciones) {
             int h = t.getFechaHora().getHour();

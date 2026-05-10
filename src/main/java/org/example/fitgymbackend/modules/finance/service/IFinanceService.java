@@ -5,7 +5,13 @@ import java.math.BigDecimal;
 
 public interface IFinanceService {
     ApiResponse abrirCaja(Integer usuarioId, BigDecimal saldoInicial);
+
     ApiResponse cerrarCaja(Integer usuarioId);
-    ApiResponse registrarTransaccion(String tipo, String categoria, BigDecimal monto, String descripcion, Boolean requiereFactura);
+
+    ApiResponse registrarTransaccion(String tipo, String categoria, BigDecimal monto, String descripcion,
+            Boolean requiereFactura);
+
     ApiResponse obtenerCajaAbierta();
+
+    ApiResponse obtenerTransaccionesCajaActual();
 }

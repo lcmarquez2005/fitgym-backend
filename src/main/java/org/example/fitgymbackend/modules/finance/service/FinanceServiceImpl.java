@@ -51,7 +51,7 @@ public class FinanceServiceImpl implements IFinanceService {
 
         CorteCaja corte = cajaOpt.get();
         List<Transaccion> transacciones = transaccionRepository.findByCorteCajaId(corte.getId());
-        
+
         BigDecimal totalIngresos = BigDecimal.ZERO;
         BigDecimal totalEgresos = BigDecimal.ZERO;
 
@@ -74,7 +74,8 @@ public class FinanceServiceImpl implements IFinanceService {
 
     @Override
     @Transactional
-    public ApiResponse registrarTransaccion(String tipo, String categoria, BigDecimal monto, String descripcion, Boolean requiereFactura) {
+    public ApiResponse registrarTransaccion(String tipo, String categoria, BigDecimal monto, String descripcion,
+            Boolean requiereFactura) {
         Optional<CorteCaja> cajaOpt = corteCajaRepository.findFirstByEstadoOrderByIdDesc("ABIERTA");
         if (cajaOpt.isEmpty()) {
             return new ApiResponse("No se puede registrar transaccion: No hay caja abierta.", false, null);
@@ -100,5 +101,16 @@ public class FinanceServiceImpl implements IFinanceService {
             return new ApiResponse("Caja actual recuperada", true, cajaOpt.get());
         }
         return new ApiResponse("No hay caja abierta actualmente", false, null);
+    }
+
+    @Override
+    public ApiResponse obtenerTransaccionesCajaActual() {
+        Optional<CorteCaja> cajaOpt = corteCajaRepository.findFirstByEstadoOrderByIdDesc("ABIERTA");
+        if (cajaOpt.isEmpty()) {
+            return new ApiResponse("No hay caja abierta", false, null);
+        }
+        List<Transaccion> transacciones = transaccionRepository
+                .findByCorteCajaId(cajaOpt.get().getId());
+        return new ApiResponse("Transacciones obtenidas", true, transacciones);
     }
 }
