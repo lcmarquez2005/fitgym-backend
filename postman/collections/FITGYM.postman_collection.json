@@ -1,0 +1,395 @@
+{
+  "info": {
+    "_postman_id": "63493e0a-702d-4494-84c7-4f8bf5165c4d",
+    "name": "FITGYM",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Render Cloud",
+      "item": [
+        {
+          "name": "Login Copy",
+          "id": "54cdaf7e-9140-440c-af89-923213a547fd",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"noControl\": \"John Doe\",\r\n    \"huellaDigital\": \"1234567890\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fitgym-backend-hrwj.onrender.com/api/users/login",
+              "protocol": "https",
+              "host": [
+                "fitgym-backend-hrwj",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllUsers",
+          "id": "d696d8e2-2f33-4e54-9b2f-6461e023ba1f",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fitgym-backend-hrwj.onrender.com/api/users",
+              "protocol": "https",
+              "host": [
+                "fitgym-backend-hrwj",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "b5b5af3d-28fc-435a-8728-38e5b65c094f"
+    },
+    {
+      "name": "Local",
+      "item": [
+        {
+          "name": "Pagos",
+          "item": [
+            {
+              "name": "PagosProcesar",
+              "id": "8b26c01f-9183-4a5f-9e83-18e11ded5801",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"plan\": \"fitplan regular\",\r\n        \"monto\": 800,\r\n        \"vigencia\": \"3 Meses\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/pagos/procesar",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "pagos",
+                    "procesar"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PagosProcesar Copy",
+              "id": "3af59e6d-de08-4563-aaff-d6a2158af0b5",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"plan\": \"fitplan regular\",\r\n        \"monto\": 800,\r\n        \"vigencia\": \"3 Meses\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/pagos/ticket/2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "pagos",
+                    "ticket",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PagosProcesar Copy 2",
+              "id": "b7dfca52-a31e-494c-8e3d-d1a573ca6a92",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"plan\": \"fitplan regular\",\r\n        \"monto\": 800,\r\n        \"vigencia\": \"3 Meses\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/pagos/eliminar/2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "pagos",
+                    "eliminar",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PagosProcesar Copy 3",
+              "id": "72d7e0ca-4349-4f71-81a9-c20c2241e1a4",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"nombre\": \"Julio\",\r\n        \"plan\": \"fitplan Premium\",\r\n        \"monto\": 800,\r\n        \"vigencia\": \"9meses\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/pagos/actualizar/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "pagos",
+                    "actualizar",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "fd649bb7-c6f8-4d5d-bc0c-69643a6fd57c"
+        },
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "New Request",
+              "id": "36727d93-47f4-444d-8adb-f9e769255c43",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ],
+          "id": "3a2d45ac-65ba-4479-88d1-c694f06293dd"
+        },
+        {
+          "name": "Registrar",
+          "id": "635fa868-95a9-435a-ad65-8d52e43423c2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"fotoPerfil\": \"imagenes/logo16.jpg\",\r\n    \"huellaDigital\": \"alsdjlkajsdlk\",\r\n    \"rol\": \"admin\",\r\n    \"token\": \"Bearer {{token}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/api/users",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "usuarios Delete",
+          "id": "f03cf3d6-a26f-4033-bb65-f8509d34d52e",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/api/users/4",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "id": "7de1fcce-b8bf-441c-a1fc-f610e5af05e2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"noControl\": \"John Doe\",\r\n    \"huellaDigital\": \"1234567890\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/api/users/login",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "usuarios Copy",
+          "id": "e0aa565e-2c1f-4d07-82e8-742793608b2a",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fitgym-backend-hrwj.onrender.com/api/users",
+              "protocol": "https",
+              "host": [
+                "fitgym-backend-hrwj",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "usuarios Update",
+          "id": "f3e96680-63f8-4126-861e-ed4c10b41999",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/api/users/4",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "usuarios Copy 3",
+          "id": "04866f2b-abe9-4ff4-8dca-0f69399f94d5",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/users",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "id": "0fd99a90-0c9e-4395-8e6e-5d51949fbfbd",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ],
+      "id": "8e728c78-ea9a-4ae8-817b-4c775b685f73"
+    }
+  ]
+}
