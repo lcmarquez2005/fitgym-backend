@@ -211,7 +211,10 @@
               "id": "36727d93-47f4-444d-8adb-f9e769255c43",
               "request": {
                 "method": "GET",
-                "header": []
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
               },
               "response": []
             }
@@ -285,7 +288,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"noControl\": \"John Doe\",\r\n    \"huellaDigital\": \"1234567890\"\r\n\r\n}",
+              "raw": "{\r\n    \"email\": \"luisrodrigo1ewr43r400512@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -293,14 +296,13 @@
               }
             },
             "url": {
-              "raw": "localhost:8080/api/users/login",
+              "raw": "{{URL}}/api/auth/login",
               "host": [
-                "localhost"
+                "{{URL}}"
               ],
-              "port": "8080",
               "path": [
                 "api",
-                "users",
+                "auth",
                 "login"
               ]
             }
@@ -384,7 +386,10 @@
           "id": "0fd99a90-0c9e-4395-8e6e-5d51949fbfbd",
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": ""
+            }
           },
           "response": []
         }
