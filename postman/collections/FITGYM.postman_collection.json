@@ -50,12 +50,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fitgym-backend-hrwj.onrender.com/api/users",
-              "protocol": "https",
+              "raw": "{{URL}}/api/users",
               "host": [
-                "fitgym-backend-hrwj",
-                "onrender",
-                "com"
+                "{{URL}}"
               ],
               "path": [
                 "api",
