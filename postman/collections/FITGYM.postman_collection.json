@@ -45,7 +45,14 @@
           "id": "d696d8e2-2f33-4e54-9b2f-6461e023ba1f",
           "request": {
             "auth": {
-              "type": "noauth"
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
             },
             "method": "GET",
             "header": [],
@@ -219,176 +226,215 @@
           "id": "3a2d45ac-65ba-4479-88d1-c694f06293dd"
         },
         {
-          "name": "Registrar",
-          "id": "635fa868-95a9-435a-ad65-8d52e43423c2",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"fotoPerfil\": \"imagenes/logo16.jpg\",\r\n    \"huellaDigital\": \"alsdjlkajsdlk\",\r\n    \"rol\": \"admin\",\r\n    \"token\": \"Bearer {{token}}\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+          "name": "General",
+          "item": [
+            {
+              "name": "Registrar",
+              "id": "635fa868-95a9-435a-ad65-8d52e43423c2",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"fotoPerfil\": \"imagenes/logo16.jpg\",\r\n    \"huellaDigital\": \"alsdjlkajsdlk\",\r\n    \"rol\": \"admin\",\r\n    \"token\": \"Bearer {{token}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/users",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "users"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "localhost:8080/api/users",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "usuarios Delete",
-          "id": "f03cf3d6-a26f-4033-bb65-f8509d34d52e",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "usuarios Delete",
+              "id": "f03cf3d6-a26f-4033-bb65-f8509d34d52e",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/users/4",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "users",
+                    "4"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "localhost:8080/api/users/4",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users",
-                "4"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login",
-          "id": "7de1fcce-b8bf-441c-a1fc-f610e5af05e2",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"luisrodrigo1ewr43r400512@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "Login",
+              "id": "7de1fcce-b8bf-441c-a1fc-f610e5af05e2",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"luisrodrigo1ewr43r400512@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/auth/login",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "{{URL}}/api/auth/login",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "usuarios Copy",
-          "id": "e0aa565e-2c1f-4d07-82e8-742793608b2a",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://fitgym-backend-hrwj.onrender.com/api/users",
-              "protocol": "https",
-              "host": [
-                "fitgym-backend-hrwj",
-                "onrender",
-                "com"
-              ],
-              "path": [
-                "api",
-                "users"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "usuarios Update",
-          "id": "f3e96680-63f8-4126-861e-ed4c10b41999",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            {
+              "name": "usuarios Copy",
+              "id": "e0aa565e-2c1f-4d07-82e8-742793608b2a",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fitgym-backend-hrwj.onrender.com/api/users",
+                  "protocol": "https",
+                  "host": [
+                    "fitgym-backend-hrwj",
+                    "onrender",
+                    "com"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ]
                 }
-              }
+              },
+              "response": []
             },
-            "url": {
-              "raw": "localhost:8080/api/users/4",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users",
-                "4"
-              ]
+            {
+              "name": "usuarios Update",
+              "id": "f3e96680-63f8-4126-861e-ed4c10b41999",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n        \"name\": \"Luis\",\r\n        \"lastName\": \"Marquez\",\r\n        \"rol\": \"socio\",\r\n        \"fotoPerfil\": \"imagenes/people3.jpg\",\r\n        \"huellaDigital\": \"alsdkfalsdkjflas\",\r\n        \"noControl\": \"23200286\",\r\n        \"token\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/api/users/4",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "users",
+                    "4"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "usuarios Copy 3",
+              "id": "04866f2b-abe9-4ff4-8dca-0f69399f94d5",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/api/users",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "id": "0fd99a90-0c9e-4395-8e6e-5d51949fbfbd",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
+          ],
+          "id": "b8a972f6-6630-4bd3-b48f-487845092474"
         },
         {
-          "name": "usuarios Copy 3",
-          "id": "04866f2b-abe9-4ff4-8dca-0f69399f94d5",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "localhost:8080/api/users",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users"
-              ]
+          "name": "Socio",
+          "item": [
+            {
+              "name": "New Request",
+              "id": "ec324c43-bca0-45b6-9d0d-f2c2ef4165dd",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{URL}}/socios/buscar?q=Luis",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "socios",
+                    "buscar"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "Luis",
+                      "type": "text",
+                      "uuid": "d3b5562c-2271-4a12-8874-aee274977520"
+                    }
+                  ]
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "id": "0fd99a90-0c9e-4395-8e6e-5d51949fbfbd",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": ""
-            }
-          },
-          "response": []
+          ],
+          "id": "65c53654-49d3-447c-ad61-9c2c8548cff7"
         }
       ],
       "id": "8e728c78-ea9a-4ae8-817b-4c775b685f73"
